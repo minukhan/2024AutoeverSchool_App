@@ -7,3 +7,5 @@
 
 
 ![image](https://github.com/user-attachments/assets/7e0d0737-e572-4fad-94b5-07dac6d0be41)
+
+![Screenshot_20241011_132929](https://github.com/user-attachments/assets/9a9196e1-cd3d-4919-8418-b2cda62d69bf)

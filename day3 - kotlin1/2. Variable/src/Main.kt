@@ -45,5 +45,23 @@ fun main() {
 //    text = "a"
     text2 = "b"
 
+    /// 자료형 생략 가능
+    val variable = "variable"
+    var integer = 3
+
+    /**
+     * 리터럴 문자열과 함께 사용
+     */
+    println("리터럴 ${variable}입니다.")
+    println("리터럴 $integer 입니다.")
+
+    println("리터럴 " + integer + "입니다.") // 자바처럼 사용도 가능
+
+    /**
+     * null 허용 변수, 허용하지 않는 변수
+     */
+//    var a: String = null
+    val b: String? = null
+    println(b)
 
 }

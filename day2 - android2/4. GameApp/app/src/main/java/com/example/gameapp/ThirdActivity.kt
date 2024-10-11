@@ -2,6 +2,8 @@ package com.example.gameapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Gravity
+import android.view.WindowManager
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -64,8 +66,12 @@ class ThirdActivity : AppCompatActivity() {
             dialog.dismiss() // 다이얼로그 닫기
         }
 
-        // 다이얼로그 생성 및 표시
+        // 다이얼로그 생성
         val dialog: AlertDialog = builder.create()
+
+        dialog.window?.setGravity(Gravity.BOTTOM) // 아래쪽으로 위치 조정
+
+        // 다이얼로그 표시
         dialog.show()
     }
 }

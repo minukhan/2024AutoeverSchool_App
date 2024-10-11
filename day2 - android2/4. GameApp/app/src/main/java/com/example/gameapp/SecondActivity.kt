@@ -45,20 +45,4 @@ class SecondActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
-
-    // 기본 다이얼로그 표시 함수
-    private fun showBasicDialog() {
-        val builder = AlertDialog.Builder(this)
-
-        builder.setTitle("캐릭터 생성 완료")
-
-        // 확인 버튼 추가
-        builder.setPositiveButton("OK") { dialog, _ ->
-            dialog.dismiss() // 다이얼로그 닫기
-        }
-
-        // 다이얼로그 생성 및 표시
-        val dialog: AlertDialog = builder.create()
-        dialog.show()
-    }
 }

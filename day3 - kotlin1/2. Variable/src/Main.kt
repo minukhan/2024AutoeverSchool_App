@@ -24,7 +24,7 @@ fun main() {
     println(true)
     println(false)
 
-    // Row String
+    // Raw String
     println("""
         여러줄을 작성할 수 있어요.
         할 수 있다니까요?!

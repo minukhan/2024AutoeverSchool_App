@@ -2,6 +2,7 @@ package com.example.datingapp.activities
 
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +13,9 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import com.example.datingapp.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
@@ -19,11 +23,14 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
+import java.io.File
 
 class UploadActivity : AppCompatActivity() {
     private val REQUEST_CODE_CAMERA = 100
     private val REQUEST_CODE_GALLERY = 101
+    private val CAMERA_PERMISSION_CODE = 102
     private var imageUri: Uri? = null
+    private var photoUri: Uri? = null
 
     lateinit var imageView: ImageView
     private lateinit var loadingOverlay: FrameLayout
@@ -36,7 +43,7 @@ class UploadActivity : AppCompatActivity() {
         loadingOverlay = findViewById(R.id.loadingOverlay)
 
         findViewById<TextView>(R.id.btn_camera).setOnClickListener {
-            openCamera()
+            checkCameraPermission() // 카메라 권한 확인 및 요청
         }
 
         findViewById<TextView>(R.id.btn_gallery).setOnClickListener {
@@ -49,9 +56,36 @@ class UploadActivity : AppCompatActivity() {
     }
 
     private fun openCamera() {
+        val photoFile = File(getExternalFilesDir(null), "photo_${System.currentTimeMillis()}.jpg")
+        photoUri = FileProvider.getUriForFile(this, "${applicationContext.packageName}.provider", photoFile)
+
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
         if (intent.resolveActivity(packageManager) != null) {
             startActivityForResult(intent, REQUEST_CODE_CAMERA)
+        } else {
+            Toast.makeText(this, "카메라를 사용할 수 없습니다", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    // 권한 요청 메서드 추가
+    private fun checkCameraPermission() {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.CAMERA), CAMERA_PERMISSION_CODE)
+        } else {
+            openCamera()
+        }
+    }
+
+    // 권한 요청 결과 처리
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == CAMERA_PERMISSION_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                openCamera() // 권한이 허용되면 카메라 열기
+            } else {
+                Toast.makeText(this, "카메라 권한이 필요합니다.", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -61,93 +95,58 @@ class UploadActivity : AppCompatActivity() {
     }
 
     private fun upload(uri: Uri) {
-        if (imageUri == null) {
-            return
-        }
-
-        // 로딩 서클 표시
         showLoading(true)
 
-        // Firebase Storage 인스턴스 가져오기
         val storage = FirebaseStorage.getInstance()
         val storageRef: StorageReference = storage.reference
-
-        // 이미지를 업로드할 위치 지정 (예: "images/userImage.jpg")
         val imageRef = storageRef.child("images/${System.currentTimeMillis()}.jpg")
-
-        // 이미지 업로드
         val uploadTask: UploadTask = imageRef.putFile(uri)
 
         uploadTask.addOnSuccessListener { taskSnapshot ->
-            // 업로드 성공 시 URL 가져오기
             imageRef.downloadUrl.addOnSuccessListener { downloadUrl ->
-                // 업로드 후 imageUri 초기화
                 imageUri = null
-                showLoading(false) // 로딩 서클 숨기기
+                showLoading(false)
 
-                // downloadUrl을 Firestore에 저장하거나 사용
-                println("Uploaded image URL: $downloadUrl")
-                val auth = FirebaseAuth.getInstance()
-                val currentUser = auth.currentUser
-                if (currentUser != null) {
-                    updateUserImage(currentUser.email!!, downloadUrl.toString())
-                }
+                FirebaseAuth.getInstance().currentUser?.email?.let { email ->
+                    updateUserImage(email, downloadUrl.toString())
+                } ?: Toast.makeText(this, "사용자 인증 정보를 찾을 수 없습니다", Toast.LENGTH_SHORT).show()
             }
-        }.addOnFailureListener { exception ->
-            // 업로드 실패 시 처리
-            println("Error uploading image: $exception")
+        }.addOnFailureListener {
             Toast.makeText(this, "업로드 실패했습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
-            showLoading(false) // 로딩 서클 숨기기
+            showLoading(false)
         }
     }
 
-    fun updateUserImage(email: String, imageUri: String) {
+    private fun updateUserImage(email: String, imageUri: String) {
         val db = Firebase.firestore
-
-        // 이메일로 사용자 검색
         db.collection("users")
             .whereEqualTo("email", email)
             .get()
             .addOnSuccessListener { documents ->
                 if (!documents.isEmpty) {
-                    // 사용자 문서가 있을 때
                     for (document in documents) {
-                        // 문서 ID를 가져와서 참조
                         val userRef = db.collection("users").document(document.id)
-
-                        // 이미지 URI 추가
                         userRef.update("image", imageUri)
                             .addOnSuccessListener {
-                                println("User image updated successfully")
-
-                                // 메인 화면으로 이동
                                 val intent = Intent(this, MainActivity::class.java)
                                 startActivity(intent)
                                 finish()
                             }
                             .addOnFailureListener { exception ->
-                                println("Error updating user image: $exception")
+                                Toast.makeText(this, "이미지 업데이트에 실패했습니다.", Toast.LENGTH_SHORT).show()
                             }
                     }
                 } else {
-                    // 사용자 문서가 없는 경우
-                    println("No user found with the provided email")
+                    Toast.makeText(this, "해당 이메일의 사용자를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show()
                 }
             }
-            .addOnFailureListener { exception ->
-                println("Error getting user documents: $exception")
+            .addOnFailureListener {
+                Toast.makeText(this, "사용자 검색 중 오류가 발생했습니다.", Toast.LENGTH_SHORT).show()
             }
     }
-
 
     private fun showLoading(isLoading: Boolean) {
         loadingOverlay.visibility = if (isLoading) View.VISIBLE else View.GONE
-    }
-
-    // Bitmap을 URI로 변환하는 메서드
-    private fun getImageUriFromBitmap(bitmap: Bitmap): Uri {
-        val path = MediaStore.Images.Media.insertImage(contentResolver, bitmap, "Title", null)
-        return Uri.parse(path)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -155,14 +154,11 @@ class UploadActivity : AppCompatActivity() {
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 REQUEST_CODE_CAMERA -> {
-                    val imageBitmap = data?.extras?.get("data") as Bitmap
-                    // 카메라로 찍은 이미지를 이미지 뷰에 세팅
-                    imageView.setImageBitmap(imageBitmap)
-                    imageUri = getImageUriFromBitmap(imageBitmap)
+                    imageView.setImageURI(photoUri)
+                    imageUri = photoUri
                 }
                 REQUEST_CODE_GALLERY -> {
                     imageUri = data?.data
-                    // 갤러리에서 선택한 이미지를 이미지 뷰에 세팅
                     imageView.setImageURI(imageUri)
                 }
             }

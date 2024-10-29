@@ -7,11 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.datingapp.activities.IntroActivity
 import com.example.datingapp.R
+import com.example.datingapp.activities.FriendActivity
 import com.example.datingapp.activities.MainActivity
 import com.example.datingapp.activities.UploadActivity
 import com.example.datingapp.models.Gender
@@ -71,6 +73,14 @@ class MyFragment : Fragment() {
             // 인트로 화면으로 이동
             val intent = Intent(requireContext(), IntroActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK // 이전 액티비티 제거
+            startActivity(intent)
+        }
+
+        // 친구
+        val layoutFriend = view.findViewById<LinearLayout>(R.id.layoutFriend)
+        layoutFriend.setOnClickListener {
+            // 친구 화면으로 이동
+            val intent = Intent(requireContext(), FriendActivity::class.java)
             startActivity(intent)
         }
 

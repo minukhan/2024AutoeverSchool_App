@@ -7,7 +7,8 @@ data class User(
     val introduction: String = "",
     val gender: Gender = Gender.MALE,
     val age: Int = 0,
-    val image: String = ""
+    val image: String = "",
+    val friends: List<String> = emptyList()
 )
 
 enum class Gender {

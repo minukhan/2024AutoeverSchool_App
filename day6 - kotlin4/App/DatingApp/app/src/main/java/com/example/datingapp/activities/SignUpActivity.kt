@@ -111,8 +111,8 @@ class SignUpActivity : AppCompatActivity() {
 
                 // 사진 업로드 화면으로 이동
                 val intent = Intent(this, UploadActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 startActivity(intent)
-                finish()
             }
             .addOnFailureListener { e ->
                 Log.e("SignUpActivity", "Error writing document", e)

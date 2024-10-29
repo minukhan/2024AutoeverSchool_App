@@ -18,6 +18,7 @@ import com.example.datingapp.models.Message
 import com.example.datingapp.models.User
 import com.example.datingapp.repositories.ChatRepository
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import java.text.SimpleDateFormat
@@ -63,14 +64,7 @@ class ChatActivity : AppCompatActivity() {
                     println("Chat room ID: $chatRoomId")
                     this.chatRoomId = chatRoomId
                     // 해당 채팅방의 메세지 리스트를 가져온다.
-                    chatRepository.getMessages(chatRoomId) {messages ->
-                        messageList.clear()
-                        messageList.addAll(messages)
-                        messageAdapter.notifyDataSetChanged()
-
-                        // 최신 메시지로 스크롤
-                        recyclerViewMessages.scrollToPosition(messageList.size - 1)
-                    }
+                    setupMessageListener(chatRoomId) // 실시간 메시지 리스너 설정
                 } else {
                     // 채팅방을 가져오는 데 실패함: 채팅방 없음 -> 여기선 아무것도 하지 않는다. 메세지를 보낼 때 체팅방을 생성한다.
                     println("Failed to get chat room")
@@ -84,33 +78,38 @@ class ChatActivity : AppCompatActivity() {
         editText = findViewById(R.id.editText)
         imageButtonSend = findViewById(R.id.imageButtonSend)
         imageButtonSend.setOnClickListener {
-            // 참가자 목록을 설정
+            if (editText.text.toString().isEmpty()) return@setOnClickListener
+
             val auth = FirebaseAuth.getInstance()
             val currentUser = auth.currentUser
             val participants = listOf(currentUser!!.uid, otherUser)
             if (chatRoomId.isEmpty()) {
-                // 채팅방을 만든다.
-                chatRepository.createChatRoom(participants) {
-                    if (it != null) {
-                        chatRoomId = it
-                        // 메세지를 보낸다.
+                // 채팅방을 생성
+                chatRepository.createChatRoom(participants) { newChatRoomId ->
+                    if (newChatRoomId != null) {
+                        chatRoomId = newChatRoomId
+                        // 메시지를 보냄
                         val message = Message(
                             currentUser.uid,
                             editText.text.toString(),
                             System.currentTimeMillis()
                         )
-                        chatRepository.sendMessage(it, message)
+                        chatRepository.sendMessage(newChatRoomId, message)
                         editText.setText("")
+
+                        // 메시지 리스너 설정
+                        setupMessageListener(newChatRoomId)
                     }
                 }
             } else {
-                // 메세지를 보낸다.
+                // 기존 채팅방에 메시지 보냄
                 val message = Message(
                     currentUser.uid,
                     editText.text.toString(),
                     System.currentTimeMillis()
                 )
                 chatRepository.sendMessage(chatRoomId, message)
+                editText.setText("")
             }
         }
 
@@ -120,6 +119,47 @@ class ChatActivity : AppCompatActivity() {
         recyclerViewMessages.adapter = messageAdapter
         recyclerViewMessages.layoutManager = LinearLayoutManager(this)
     }
+
+
+    private fun setupMessageListener(chatRoomId: String) {
+        // Firestore에서 실시간 업데이트 리스너 설정
+        val db = FirebaseFirestore.getInstance()
+        db.collection("chatRooms") // 채팅방 컬렉션 이름
+            .document(chatRoomId)
+            .collection("messages") // 메시지가 저장된 서브 컬렉션 이름
+            .addSnapshotListener { snapshots, e ->
+                if (e != null) {
+                    println("Listen failed: $e")
+                    return@addSnapshotListener
+                }
+
+                if (snapshots != null) {
+                    // 새로운 메시지 목록
+                    val newMessages = mutableListOf<Message>()
+                    for (doc in snapshots.documentChanges) {
+                        if (doc.type == DocumentChange.Type.ADDED) {
+                            val message = doc.document.toObject(Message::class.java)
+                            newMessages.add(message)
+                        }
+                    }
+
+                    // 기존 메시지 목록에 새 메시지를 추가
+                    messageList.addAll(newMessages)
+
+                    // 메시지 목록을 타임스탬프 기준으로 정렬
+                    messageList.sortBy { it.timestamp }
+
+                    // 어댑터에 데이터 변경 알리기
+                    messageAdapter.notifyDataSetChanged()
+
+                    // 최신 메시지로 스크롤
+                    if (newMessages.isNotEmpty()) {
+                        recyclerViewMessages.scrollToPosition(messageList.size - 1)
+                    }
+                }
+            }
+    }
+
 
     fun setOtherUserInfo(userId: String, callback: (User?) -> Unit) {
         // Firestore 인스턴스 가져오기

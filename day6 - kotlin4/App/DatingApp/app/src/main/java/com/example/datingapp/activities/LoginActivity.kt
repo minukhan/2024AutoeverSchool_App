@@ -42,8 +42,8 @@ class LoginActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val intent = Intent(this, MainActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                     startActivity(intent)
-                    finish() // 현재 Activity 종료
                 } else {
                     // 로그인 실패
                     Toast.makeText(baseContext, "로그인 실패: ${task.exception?.message}", Toast.LENGTH_SHORT).show()

@@ -39,18 +39,23 @@ class ChatFragment : Fragment() {
     }
 
     private fun fetchChatRooms() {
-        FirebaseFirestore.getInstance().collection("chatRooms")
-            .get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    val chatRoom = document.toObject(ChatRoom::class.java)
-                    chatRooms.add(chatRoom)
+        val myId = FirebaseAuth.getInstance().currentUser?.uid
+        if (myId != null) {
+            FirebaseFirestore.getInstance().collection("chatRooms")
+                .whereArrayContains("participants", myId) // participants에 현재 사용자 ID가 포함된 채팅방만 가져오기
+                .get()
+                .addOnSuccessListener { documents ->
+                    chatRooms.clear() // 기존 데이터를 지우고 새로 추가
+                    for (document in documents) {
+                        val chatRoom = document.toObject(ChatRoom::class.java)
+                        chatRooms.add(chatRoom)
+                    }
+                    adapter.notifyDataSetChanged() // 데이터 변경 알리기
                 }
-                adapter.notifyDataSetChanged() // 데이터 변경 알리기
-            }
-            .addOnFailureListener { exception ->
-                println("Error getting chat rooms: $exception")
-            }
+                .addOnFailureListener { exception ->
+                    println("Error getting chat rooms: $exception")
+                }
+        }
     }
 }
 

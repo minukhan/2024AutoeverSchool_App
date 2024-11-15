@@ -10,16 +10,19 @@ fun main() {
 
     println("-------------------")
 
+    // 같은 패키지 내
     val obj1 = PrivateClass1()
     val obj2 = PublicClass1()
     val obj3 = ProtectedClass1()
     val obj4 = InternalClass1()
 
+    // 다른 패키지
     val obj5 = PrivateClass2()
     val obj6 = PublicClass2()
     val obj7 = ProtectedClass2()
     val obj8 = InternalClass2()
 
+    // 다른 모듈
     val obj11 = PrivateClass3()
     val obj12 = PublicClass3()
     val obj13 = ProtectedClass3()
@@ -32,8 +35,6 @@ fun main() {
     t1.public1
     t1.protected1
     t1.internal1
-
-
 
 }
 

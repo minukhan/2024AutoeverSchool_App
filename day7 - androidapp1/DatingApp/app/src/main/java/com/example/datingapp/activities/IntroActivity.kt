@@ -20,8 +20,8 @@ class IntroActivity : AppCompatActivity() {
     private lateinit var viewPager: ViewPager2
     private lateinit var adapter: ImageAdapter
     private val images = listOf(
-        R.drawable.idol1, // 첫 번째 이미지
-        R.drawable.idol2  // 두 번째 이미지
+        R.drawable.idol3, // 첫 번째 이미지
+        R.drawable.idol4  // 두 번째 이미지
     )
     private val handler = Handler(Looper.getMainLooper())
     private var currentPage = 0

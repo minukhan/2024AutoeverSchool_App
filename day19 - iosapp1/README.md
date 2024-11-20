@@ -2,4 +2,6 @@
   * 할 일 관리 앱 개발 1
   * 할 일 목록을 파이어베이스 스토어에 저장 및 불러오기, 삭제 기능 구현
   * 파이어베이스 스토리지를 통해 앨번 사진을 저장 및 불러오는 기능 구현
-![스크린샷 2024-11-20 오전 11.47.57.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/333a90c2-9887-4572-95e6-dafd7659b4dc/ce448683-201c-458c-beeb-1e7092d4618a/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2024-11-20_%E1%84%8B%E1%85%A9%E1%84%8C%E1%85%A5%E1%86%AB_11.47.57.png)
+
+![simulator_screenshot_DFBB807D-BC98-40FE-9891-813BC7CCCFB0](https://github.com/user-attachments/assets/2b5db1bf-a694-4da7-90b0-da691644f218)
+![simulator_screenshot_EA955A29-4DA6-4A1F-AA60-ED2B483DBB36](https://github.com/user-attachments/assets/0d67041c-3500-495b-ba0e-192db53baa18)

@@ -37,3 +37,5 @@ class TestClass3 {
         println("funA")
     }
 }
+
+// 시간 남거나 여유되면 자바 코드로 변환되는 거 확인.

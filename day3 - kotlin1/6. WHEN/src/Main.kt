@@ -53,3 +53,8 @@ fun function(a: Int) = when (a) {
     2 -> "2입니다."
     else -> "알 수 없는 숫자"
 }
+
+// 그럼 if문은 함수형 가능한가? -> 불가능
+fun asdf() = if (true) {
+
+}

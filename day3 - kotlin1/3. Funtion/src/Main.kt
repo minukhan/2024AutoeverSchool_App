@@ -22,7 +22,7 @@ fun main() {
     result2 = minus(200)
     println("빼기 결과값은 ${result2}입니다.")
 
-    // 함수의 오버로딩
+    // 함수의 오버로딩. 오버라이딩과 혼동 주의
     function()
     function(100)
     function(100.00)

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="476d05a3-ed78-4901-b312-f3dc8c1c606c" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../../day13 - ios1/TodoManaging/TodoManaging.xcodeproj/project.xcworkspace/xcuserdata/warrenjo.xcuserdatad/UserInterfaceState.xcuserstate" beforeDir="false" afterPath="$PROJECT_DIR$/../../day13 - ios1/TodoManaging/TodoManaging.xcodeproj/project.xcworkspace/xcuserdata/warrenjo.xcuserdatad/UserInterfaceState.xcuserstate" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../day18 - swift4/BurgerKing/BurgerKing.xcodeproj/project.xcworkspace/xcuserdata/warrenjo.xcuserdatad/UserInterfaceState.xcuserstate" beforeDir="false" afterPath="$PROJECT_DIR$/../../day18 - swift4/BurgerKing/BurgerKing.xcodeproj/project.xcworkspace/xcuserdata/warrenjo.xcuserdatad/UserInterfaceState.xcuserstate" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../day18 - swift4/BurgerKing/BurgerKing/MenuCollectionViewCell.swift" beforeDir="false" afterPath="$PROJECT_DIR$/../../day18 - swift4/BurgerKing/BurgerKing/MenuCollectionViewCell.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../day18 - swift4/BurgerKing/BurgerKing/ViewController.swift" beforeDir="false" afterPath="$PROJECT_DIR$/../../day18 - swift4/BurgerKing/BurgerKing/ViewController.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../day19 - iosapp1/TodoManager/TodoManager.xcodeproj/project.xcworkspace/xcuserdata/warrenjo.xcuserdatad/UserInterfaceState.xcuserstate" beforeDir="false" afterPath="$PROJECT_DIR$/../../day19 - iosapp1/TodoManager/TodoManager.xcodeproj/project.xcworkspace/xcuserdata/warrenjo.xcuserdatad/UserInterfaceState.xcuserstate" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../1. Basic/src/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../1. Basic/src/Main.kt" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectId" id="2pHiq76F5dbFxs4fGwwbicqNUDy" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "last_opened_file_path": "/Users/warrenjo/NGVProjects/day3 - kotlin1/App",
+    "settings.editor.selected.configurable": "AndroidSdkUpdater"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="476d05a3-ed78-4901-b312-f3dc8c1c606c" name="Changes" comment="" />
+      <created>1732429590459</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1732429590459</updated>
+    </task>
+    <servers />
+  </component>
+</project>

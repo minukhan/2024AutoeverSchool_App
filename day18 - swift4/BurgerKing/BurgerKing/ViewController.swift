@@ -53,10 +53,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "menuCell", for: indexPath) as! MenuCollectionViewCell<Item>
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "menuCell", for: indexPath) as! MenuCollectionViewCell
         
-//        cell.imageView.image = UIImage(named: menus[indexPath.row].image)
-        cell.configure(with: menus[indexPath.row])
+        cell.imageView.image = UIImage(named: menus[indexPath.row].image)
+//        cell.configure(with: menus[indexPath.row])
         // 이미지 로드 시 예외 처리
 //        do {
 //            let image = try UIImage.load(named: menus[indexPath.row].image)

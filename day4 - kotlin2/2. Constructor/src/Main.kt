@@ -43,13 +43,13 @@ class TestClass2 {
     }
 }
 
-// 기본 생성자: 매개변수가 멤버 변수로 자동 생성 된다.
+// 기본 생성자(주 생성자): 매개변수가 멤버 변수로 자동 생성 된다.
 //class TestClass3 constructor(var a1: Int, val a2: Int)
 class TestClass3(var a1: Int, val a2: Int)
 
 
 class TestClass4(var a1: Int, val a2: Int) {
-    init {
+    init { // 생성자가 먼저 호출되는지 init 블록이 먼저 호출되는지 확인.
         println("init 코드 수행")
         println("a1: $a1")
         println("a2: $a2")

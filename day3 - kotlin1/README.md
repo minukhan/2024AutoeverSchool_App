@@ -6,3 +6,4 @@
 * 계산기 앱 개발
   
   ![KakaoTalk_Photo_2024-11-20-18-55-22](https://github.com/user-attachments/assets/97edbfb0-20b4-4e8b-aa34-a412b496988d)
+<img src="https://github.com/user-attachments/assets/cead84bd-aca1-4889-9edd-185a5c26e3a8" width="２00"/>

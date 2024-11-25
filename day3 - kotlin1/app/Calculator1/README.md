@@ -1,3 +1,3 @@
 # 계산기 앱 만들기
 
-<img src="https://github.com/user-attachments/assets/cead84bd-aca1-4889-9edd-185a5c26e3a8" width="200"/>
+<img src="https://github.com/user-attachments/assets/e5d3ca6f-39ed-4d9c-b4d1-6b31d12b50a4" width="200"/>

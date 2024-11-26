@@ -5,4 +5,4 @@
 * Java 문법과 다른 점을 유심히 살펴보고 더 세련된 문법 체화하기(Switch -> When 등)
 * 계산기 앱 개발
   
-  ![KakaoTalk_Photo_2024-11-20-18-55-22](https://github.com/user-attachments/assets/97edbfb0-20b4-4e8b-aa34-a412b496988d)
+<img src="https://github.com/user-attachments/assets/e5d3ca6f-39ed-4d9c-b4d1-6b31d12b50a4" width="200"/>

@@ -1,23 +1,30 @@
 public class JavaMain {
+
+    // 일반 맴버 변수
     public int javaA1 = 100;
+    // 정적 맴버 변수
     public static int javaA2 = 200;
-    public void javaMethod1() {
+
+    // 일반 맴버 메서드
+    public void javaMethod1(){
         System.out.println("javaMethod1");
     }
-    public static void javaMethod2() {
+    // 정적 맴버 메서드
+    public static void javaMethod2(){
         System.out.println("javaMethod2");
     }
-    public static void main(String[] args) { // 8. 자바 메인을 실행한다.
+
+    public static void main(String [] args){
+        // Kotlin에서 만든 클래스 사용
         TestClass1 t1 = new TestClass1();
-        System.out.printf("t1.a1: %d\n", t1.getA1()); // 9. 일반 변수에 게터로 접근한다.
-        t1.testFun1();
+        System.out.println("t1.a1 : " + t1.getA1());
+        t1.testMethod1();
 
-//        System.out.printf("TestClass1.a2: %d\n", TestClass1.a2); // 10. 자바에서 코틀린 컴패니언으로 접근은 클래스로 접근하더라도 그냥 접근할 수 없다.
-//        TestClass1.testFun2();
-        System.out.printf("TestClass1.a2: %d\n", TestClass1.Companion.getA2()); // 11. 클래스로 접근하면서 ".Compaion"으로 접근해야 한다.
-        TestClass1.Companion.testFun2();
+        // Kotlin에서 정의한 정적 맴버를 사용한다.
+        System.out.println("TestClass1.a2 : " + TestClass1.Companion.getA2());
+        TestClass1.Companion.testMethod2();
 
-        System.out.printf("TestClass1.a3: %d\n", TestClass1.getA3()); // 12. 코틀린 Compaion 멤버에 접근할 때 "@JvmStatic"로 선언해 놓으면 그냥 접근이 가능하다.
-        TestClass1.testFun3();
+        System.out.println("TestClass1.a3 : " + TestClass1.getA3());
+        TestClass1.testMethod3();
     }
 }
